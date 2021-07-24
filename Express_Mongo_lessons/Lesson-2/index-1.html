@@ -1,0 +1,87 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index-1</title>
+</head>
+<body>
+
+    <!-- Below, we have made four basic buttons, each with a simple onclick function.
+    The functions are defined below in the script tag. Each function contains
+    a fetch request which is one of the AJAX methods for making a query. 
+    When our server is running, we can open this html and click the buttons 
+    to see what happens in the developer tools. Check out the functions below.
+    After you understand this information clearly, then you can continue onto
+    server-2.js. -->
+
+
+    <h1>Click buttons below to make a request.</h1>
+    <p>Open up the developer tools to see the responses in the console</p>
+    
+    <button onclick="getFunction()">GET</button>
+    <button onclick="postFunction()">POST</button>
+    <button onclick="putFunction()">PUT</button>
+    <button onclick="deleteFunction()">DELETE</button>
+</body>
+
+<script>
+
+//Each of these methods are the exact same. The only difference is that that 
+//the "method" has changed from GET POST PUT and DELETE for each one. 
+//You will notice each one is sending a request to the exact same url. 
+//In this case, it is "http:localhost:" because it is out own computer
+//and then says "5000" becuase that is the port we are using for the 
+//server to run on in our server-1.js.
+
+//This also shows that we are using different methods on the same endpoint as well. 
+//When you check the console after clicking one of the buttons, you should see an
+//object appear in the console that has our json objects which can be found in the 
+//routes in the server-1.js since that is what we are senging as a response. 
+
+
+//GET method function
+const getFunction = () =>{
+    fetch("http://localhost:5000",
+    {
+        method:"GET"
+    })
+    .then((response)=>{console.log(response.json())})
+    .catch((err)=>{console.log(err)})
+};
+
+//POST method function
+const postFunction = () =>{
+
+    fetch("http://localhost:5000",
+    {
+        method:"POST"
+    })
+    .then((response)=>{console.log(response.json())})
+    .catch((err)=>{console.log(err)})
+};
+
+//PUT method function
+const putFunction = () =>{
+
+    fetch("http://localhost:5000",
+    {
+        method:"PUT"
+    })
+    .then((response)=>{console.log(response.json())})
+    .catch((err)=>{console.log(err)})
+};
+
+//DELETE method function
+const deleteFunction = () =>{
+
+    fetch("http://localhost:5000",
+    {
+        method:"DELETE"
+    })
+    .then((response)=>{console.log(response.json())})
+    .catch((err)=>{console.log(err)})
+};
+
+</script>
+</html>

@@ -1,0 +1,14 @@
+[
+    {
+        "name":"Tom",
+        "account":12345,
+        "phone":"555-555-5555",
+        "active":true
+    },
+    {
+        "name":"Bob",
+        "account":98765,
+        "phone":"444-444-4444",
+        "active":false
+    }
+]
