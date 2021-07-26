@@ -1,0 +1,93 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index-2 Cars data</title>
+</head>
+
+<style>
+    .container {
+        display: flex;
+    }
+
+    .box {
+        margin: 2em;
+        font-size: 2em
+    }
+</style>
+<body>
+
+        <!-- Below, we have a simple dropdown menu to select a color. Each <option> has the same 
+        corresponding color for a value. This way, when the Search button is clicked, it will
+        use the value from the option selected. Continur to the script below. You can move on to
+        server-3.js.-->
+
+        <h1>Select a color and then click search</h1>
+        <p>Be sure to open the console in developer tools as well.</p>
+        <div class="container">
+        <div id="box-one" class="box">
+        <select id="car-colors" name="car-colors">
+          <option value="red">Red</option>
+          <option value="blue">Blue</option>
+          <option value="green">Green</option>
+          <option value="black">Black</option>
+          <option value="white">White</option>
+        </select>
+        <button onclick=carQuery()>Search</button>
+        </div>
+        <div id="box-two" class="box">
+
+        </div>
+        </div>
+    
+</body>
+<script>
+
+    //This is our onclick function for our button. It has a fatch query inside of that changes
+    //depending on the color selected above. 
+
+    function carQuery(){
+
+        //Clears the display box each time before a new query is made.
+        let displayBox = document.getElementById("box-two");
+        displayBox.textContent=""
+
+        //Grabs the value of the color selected above.
+        let carColors = document.getElementById("car-colors")
+        let chosenColor = carColors.value
+        console.log(chosenColor)
+
+        //Here is the fetch request. Notice the url has a Template Literal(`${}`) inside of it.
+        //The value inside of the Template Literal is chosenColor, which is the variable we made
+        //above to get the color selected from our dropdown. This way, it will add the value of 
+        //the selected color to the string of our url.
+        fetch(`http://localhost:5000/cars?color=${chosenColor}`,{
+
+            method:"GET"
+        }
+        ).then(response=>{
+            //We return the response so that "data" can have access to it.
+            return response.json()
+        }).then(
+            data => {
+                console.log(data)
+                
+                //This block of code is a map() method to map through the data we received from
+                //the filter() method in the server-2.js. It then will append it to the div
+                //in our html so that the results can
+                data.map(cars=>{
+            
+                    let div = document.createElement("div")
+                    div.innerHTML = [`Name: ${cars.name} Color: ${cars.color} Year: ${cars.year}`]
+                    displayBox.append(div)})
+            }
+        ).catch(error=>{
+            //Catch will help is see what the error is if an error should occur.
+            console.log(error)
+        })
+    }
+
+
+</script>
+</html>

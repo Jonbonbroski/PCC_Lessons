@@ -1,0 +1,122 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index-3 Cars data</title>
+</head>
+
+<style>
+    .container {
+        display: flex;
+    }
+
+    .box {
+        margin: 1.5em;
+        font-size: 1.5em
+    }
+</style>
+<body>
+
+        <!-- Below, we have a simple dropdown menu to select a color. Each <option> has the same 
+        corresponding color for a value. This way, when the Search button is clicked, it will
+        use the value from the option selected. Continur to the script below. You can move on to
+        server-3.js.-->
+
+        <h1>Select a color or year or both!</h1>
+        <p>Be sure to open the console in developer tools as well.</p>
+        <div class="container">
+        <div id="box-one" class="box">
+        <h5>Car Color</h5>
+        <select id="car-colors" name="car-colors">
+          <option value="">- None -</option>
+          <option value="red">Red</option>
+          <option value="blue">Blue</option>
+          <option value="green">Green</option>
+          <option value="black">Black</option>
+          <option value="white">White</option>
+        </select>
+        <h5>Car Year</h5>
+        <select id="car-years" name="car-years">
+            <option value="">- None -</option>
+            <option value="1965">1965</option>
+            <option value="1966">1966</option>
+            <option value="1967">1967</option>
+          </select>
+          <br><br>
+        <button onclick=carQuery()>Search</button>
+        </div>
+        <div id="box-two" class="box">
+
+        </div>
+        </div>
+    
+</body>
+<script>
+
+    //This is our onclick function for our button. It has a fatch query inside of that changes
+    //depending on the color selected above. 
+
+    function carQuery(){
+        //Clears the display box each time before a new query is made.
+        let displayBox = document.getElementById("box-two");
+        displayBox.textContent=""
+        //Grabs the value of the color selected above.
+        let carColors = document.getElementById("car-colors")
+        let chosenColor = carColors.value
+        console.log(chosenColor)
+        //Grabs the value of the year selected above.
+        let carYear = document.getElementById("car-years")
+        let chosenYear = carYear.value
+        console.log(chosenYear)
+
+        //There are multiple ways to do this next step. For this, we have stuck with using
+        //an if/else statement for simplicity. This will check if a value has been selected for
+        //color and for year. It will then change the url we put in our fetch request below.
+        let url;
+
+        if(chosenColor !== "" && chosenYear !== ""){
+            console.log("color and year")
+            url = `http://localhost:5000/cars?color=${chosenColor}&year=${chosenYear}`
+
+        }else if(chosenYear !== ""){
+            console.log("year")
+            url = `http://localhost:5000/cars?year=${chosenYear}`
+
+        }else if(chosenColor !== ""){
+            console.log("color")
+            url = `http://localhost:5000/cars?color=${chosenColor}`
+
+        }else{
+            console.log("Nothing was selected")
+            url = "http://localhost:5000/cars"
+        };
+
+
+        fetch(url,{
+            method:"GET"
+         }
+        ).then(response=>{return response.json()
+        }).then(data => {
+            console.log(data)
+
+            if(data.hasOwnProperty("message")){
+                let div = document.createElement("div")
+                    div.textContent = data.message
+                    displayBox.append(div)
+            }else{
+                console.log(data)
+                data.map(cars=>{
+                let div = document.createElement("div")
+                    div.innerHTML = [`Name: ${cars.name} Color: ${cars.color} Year: ${cars.year}`]
+                    displayBox.append(div)
+                })
+            }
+        }).catch( error=>{
+            console.log(error) 
+         })
+    }
+
+
+</script>
+</html>
