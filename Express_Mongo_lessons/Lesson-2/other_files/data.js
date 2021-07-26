@@ -1,88 +1,159 @@
 const data = [
 
     {
-        "account":12345,
-        "name":"Tim",
-        "location":"Arizona",
-        "age":25
+        "name":"Car-1",
+        "color":"red",
+        "year":1965
     },
     {
-        "account":12346,
-        "name":"Tom",
-        "location":"Texas",
-        "age":32
+        "name":"Car-2",
+        "color":"black",
+        "year":1966
     },
     {
-        "account":12347,
-        "name":"Sarah",
-        "location":"California",
-        "age":31
+        "name":"Car-3",
+        "color":"green",
+        "year":1967
     },
     {
-        "account":12348,
-        "name":"Bob",
-        "location":"Nevada",
-        "age":27
+        "name":"Car-4",
+        "color":"red",
+        "year":1965
     },
     {
-        "account":12349,
-        "name":"Bill",
-        "location":"Arizona",
-        "age":31
+        "name":"Car-5",
+        "color":"blue",
+        "year":1966
     },
     {
-        "account":12350,
-        "name":"Alex",
-        "location":"Nevada",
-        "age":31
+        "name":"Car-6",
+        "color":"green",
+        "year":1967
     },
     {
-        "account":12351,
-        "name":"Alice",
-        "location":"California",
-        "age":40
+        "name":"Car-7",
+        "color":"white",
+        "year":1965
     },
     {
-        "account":12352,
-        "name":"Eric",
-        "location":"Nevada",
-        "age":45
+        "name":"Car-1",
+        "color":"black",
+        "year":1966
     },
     {
-        "account":12353,
-        "name":"Errin",
-        "location":"California",
-        "age":49
+        "name":"Car-9",
+        "color":"green",
+        "year":1967
     },
     {
-        "account":12354,
-        "name":"Kyle",
-        "location":"Arizona",
-        "age":25
+        "name":"Car-10",
+        "color":"black",
+        "year":1965
     },
     {
-        "account":12355,
-        "name":"Karren",
-        "location":"California",
-        "age":45
+        "name":"Car-11",
+        "color":"red",
+        "year":1966
     },
     {
-        "account":12356,
-        "name":"Joe",
-        "location":"California",
-        "age":34
+        "name":"Car-12",
+        "color":"blue",
+        "year":1967
     },
     {
-        "account":12357,
-        "name":"Julie",
-        "location":"Arizona",
-        "age":62
+        "name":"Car-13",
+        "color":"red",
+        "year":1965
     },
     {
-        "account":12358,
-        "name":"Marco",
-        "location":"Nevada",
-        "age":47
+        "name":"Car-14",
+        "color":"blue",
+        "year":1966
+    },
+    {
+        "name":"Car-15",
+        "color":"white",
+        "year":1967
+    },
+    {
+        "name":"Car-16",
+        "color":"green",
+        "year":1965
+    },
+    {
+        "name":"Car-17",
+        "color":"red",
+        "year":1966
+    },
+    {
+        "name":"Car-18",
+        "color":"white",
+        "year":1967
+    },
+    {
+        "name":"Car-19",
+        "color":"green",
+        "year":1965
+    },
+    {
+        "name":"Car-20",
+        "color":"blue",
+        "year":1966
+    },
+    {
+        "name":"Car-21",
+        "color":"red",
+        "year":1967
+    },
+    {
+        "name":"Car-22",
+        "color":"red",
+        "year":1965
+    },
+    {
+        "name":"Car-23",
+        "color":"blue",
+        "year":1966
+    },
+    {
+        "name":"Car-24",
+        "color":"black",
+        "year":1967
+    },
+    {
+        "name":"Car-25",
+        "color":"green",
+        "year":1965
+    },
+    {
+        "name":"Car-26",
+        "color":"blue",
+        "year":1965
+    },
+    {
+        "name":"Car-27",
+        "color":"green",
+        "year":1966
+    },
+    {
+        "name":"Car-28",
+        "color":"white",
+        "year":1966
+    },
+    {
+        "name":"Car-28",
+        "color":"black",
+        "year":1965
+    },
+    {
+        "name":"Car-29",
+        "color":"black",
+        "year":1967
+    },
+    {
+        "name":"Car-30",
+        "color":"black",
+        "year":1967
     }
 ];
 
