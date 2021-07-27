@@ -37,6 +37,12 @@ const PORT = 5000
 //                                                         inside one url. They are seperated by the ampersand "&"
 //                                                         symbol. query "age" value "30" and query "location" with 
 //                                                         a value of "California")
+//
+// -- Example 2 --
+// 
+// Route path: /account
+// Request URL: http://localhost:5000/account?id=34
+// req.query: { "id": "34"}
 
 
 //For the examples above, think about being on a website where you need to search for specific accounts

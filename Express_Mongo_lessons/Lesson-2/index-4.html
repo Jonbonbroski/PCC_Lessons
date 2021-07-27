@@ -1,0 +1,125 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index-3 Cars data</title>
+</head>
+
+<style>
+    .container {
+        display: flex;
+    }
+    .box {
+        margin: 1.0em;
+        font-size: 1.0em
+    }
+</style>
+<body>
+
+        <!-- Same dropdowns as before, but check out the queries below. After you have understood
+             the information, you may move onto server-5.js.-->
+
+        <h1></h1>
+        <p>Be sure to open the console in developer tools as well.</p>
+        <h1>One Route Paramters</h1>
+        <div class="container">
+        <div id="box-one" class="box">
+        <h5>Car Color</h5>
+        <select id="car-colors" name="car-colors">
+          <option value="red">Red</option>
+          <option value="blue">Blue</option>
+          <option value="green">Green</option>
+          <option value="black">Black</option>
+          <option value="white">White</option>
+        </select>
+        <br><br>
+        <button onclick=carQuery()>Search</button>
+        <div id="display-one"  class="display"></div>
+        </div>
+        </div>
+
+        <h1>Multiple Route Paramters</h1>
+        <div class="container">
+        <div id="box-two" class="box">
+            <div class="container"></div>
+            <h5>Car Color</h5>
+            <select id="car-colors-two" name="car-colors-two">
+              <option value="red">Red</option>
+              <option value="blue">Blue</option>
+              <option value="green">Green</option>
+              <option value="black">Black</option>
+              <option value="white">White</option>
+            </select>
+            <h5>Car Year</h5>
+            <select id="car-years" name="car-years">
+                <option value="1965">1965</option>
+                <option value="1966">1966</option>
+                <option value="1967">1967</option>
+              </select>
+              <br><br>
+            <button onclick=carTwoQuery()>Search</button>
+            </div>
+            <div id="display-two" class="display">
+
+            </div>
+        </div>
+        </div>
+    
+</body>
+<script>
+  //First query option. Only uses one route paramter
+    function carQuery(){
+
+        let displayBox = document.getElementById("display-one");
+        displayBox.textContent=""
+        
+        let carColors = document.getElementById("car-colors")
+        let chosenColor = carColors.value
+        console.log(chosenColor)
+
+        //You can see a value is being entered after /cars in this url where /:color would be in our route path.
+        //This will associate the two in the request object under "req.params".
+        fetch(`http://localhost:5000/cars/${chosenColor}`,{method:"GET"})
+        .then(response =>{ return response.json()})
+        .then(data =>{
+            data.map(cars=>{
+                let div = document.createElement("div")
+                    div.innerHTML = [`Name: ${cars.name} Color: ${cars.color} Year: ${cars.year}`]
+                    displayBox.append(div)
+                })
+        })
+        .catch(error=>{console.log(error)})
+    };
+
+//This is our second query that uses two route paramters. 
+function carTwoQuery(){
+
+let displayBox = document.getElementById("display-two");
+displayBox.textContent=""
+
+let carColors = document.getElementById("car-colors-two")
+let chosenColor = carColors.value
+console.log(chosenColor);
+
+let carYears = document.getElementById("car-years")
+let chosenYear = carYears.value
+console.log(chosenYear)
+
+//Same as before, we are adding values in this url where /:color and /:year are in our path. 
+//So the req.params will return an object with two keys and values. Example: { color: 'red', year: '1965'}
+//Keep in mind you may want to also code in a response to show if no cars are found for our queries.
+fetch(`http://localhost:5000/carTwo/${chosenColor}/${chosenYear}`,{method:"GET"})
+.then(response =>{ return response.json()})
+.then(data =>{
+    data.map(cars=>{
+        let div = document.createElement("div")
+            div.innerHTML = [`Name: ${cars.name} Color: ${cars.color} Year: ${cars.year}`]
+            displayBox.append(div)
+        })
+})
+.catch(error=>{console.log(error)})
+}
+
+</script>
+</html>

@@ -1,0 +1,87 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index-5 Route & Query Parameters</title>
+</head>
+
+<style>
+    .container {
+        display: flex;
+    }
+
+    .box {
+        margin: 1.5em;
+        font-size: 1.5em
+    }
+</style>
+<body>
+
+        <!-- Using the same dropdowns, you will notice that year has a default option
+            selected since it is required and you will see color is optional..-->
+
+        <p>Be sure to open the console in developer tools as well.</p>
+        <div class="container">
+            <div id="box-one" class="box">
+                <h5>Car Year</h5>
+                <select id="car-years" name="car-years">
+                    <option value="1965">1965</option>
+                    <option value="1966">1966</option>
+                    <option value="1967">1967</option>
+                </select>
+                <h5>Car Color</h5>
+                <select id="car-colors" name="car-colors">
+                    <option value="">- None -</option>
+                    <option value="red">Red</option>
+                    <option value="blue">Blue</option>
+                    <option value="green">Green</option>
+                    <option value="black">Black</option>
+                    <option value="white">White</option>
+                </select>
+                <br><br>
+                <button onclick=carQuery()>Search</button>
+            </div>
+            <div id="box-two" class="box">
+        
+            </div>
+        </div>
+</body>
+<script>
+
+    function carQuery(){
+        let displayBox = document.getElementById("box-two");
+        displayBox.textContent=""
+        
+        let carColors = document.getElementById("car-colors")
+        let chosenColor = carColors.value
+        console.log(chosenColor)
+       
+        let carYear = document.getElementById("car-years")
+        let chosenYear = carYear.value
+        console.log(chosenYear)
+
+        //Since color is optional, we need to make sure to send the correct url for our query. 
+        let url;
+        if(chosenColor==""){
+            url = `http://localhost:5000/cars/${chosenYear}`
+        }else{
+            url = `http://localhost:5000/cars/${chosenYear}/?color=${chosenColor}`
+        }
+
+        fetch(url,{method:"GET"})
+        .then((response)=>{ return response.json()})
+        .then(data =>{   
+            
+            data.map(cars=>{
+            let div = document.createElement("div")
+            div.innerHTML = [`Name: ${cars.name} Color: ${cars.color} Year: ${cars.year}`]
+            displayBox.append(div)
+        })})
+        .catch(error=>console.log(error))
+
+    }
+
+    </script>
+
+    </html>
