@@ -1,0 +1,57 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index-2.html</title>
+</head>
+<body>
+
+    <!-- This query is to show an example of what happens when a header is incorrect. 
+         Again, headers are usually just used to pass information regarding the query.
+         Though they may have tokens, secrets and passwords for calling to an API, they 
+         usually are not used for sensitive information. There is an actual Authorization header
+         that can be used. But often you will find usernames and passwords for log ins are 
+         inside a POST request body. This is because requests can be cached and logged by systems -->
+
+
+
+    <h1>Welcome!</h1>
+    <p>Try entering a random password. Then try entering the password: R0ck L0bster</p>
+    <p>The headers will be evaluated by the route and a response will returned.</p>
+    <p>Be sure to open both consoles as well to see the requests and responses</p>
+    <input id="password-input">
+    <button onclick=myQuery()>Click here</button>
+    <button onclick=myQueryTwo()>Click here</button>
+    <h3 id="message"></h3>
+</body>
+<script>
+
+
+function myQuery(){
+    let passwordInput = document.getElementById("password-input");
+    let passwordEntered = passwordInput.value
+    let messageDiv = document.getElementById("message")
+
+    fetch("http://localhost:5000/",{
+        method:"GET",
+        body:{
+            name:'tim'
+        },
+        headers:{
+            'id':12345,
+            'token':"W3csda8J0k4fwl0Zz",
+            'password':passwordEntered,
+            
+        }
+    }).then(response=>{return response.json()})
+    .then(data=>{ console.log(data)
+                 messageDiv.textContent=data.message})
+    .catch(error=>console.log(error))
+}
+
+
+
+
+</script>
+</html>

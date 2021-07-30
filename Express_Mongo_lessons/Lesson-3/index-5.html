@@ -1,0 +1,78 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index-5</title>
+</head>
+<style>
+    .container{
+        display:flex
+    }
+
+    .box{
+        margin: 1.2em
+    }
+</style>
+<body>
+
+    <!-- In this html, we have a post route. We are sending the information from the text to add
+         to the database object in our server. Then, after the middleware has added it, we will
+        receive a response from the route.  -->
+    
+        <h1>Add items to the list</h1>
+
+        <div class="container">
+
+            <div id="box-one" class="box">
+                <p>Enter item name then click Add.</p>
+                <input id="item-input" placeholder="Enter Item">
+                <button onclick=addItemQuery()>Add</button>
+            </div>
+
+            <div id="box-two" class="box">
+
+            </div>
+
+
+        </div>
+
+
+</body>
+
+<script>
+
+    let itemsBox = document.getElementById("box-two");
+    let itemInput = document.getElementById("item-input");
+    let itemName = itemInput.value
+    console.log("hello?")
+
+    function addItemQuery(){
+        let itemInput = document.getElementById("item-input");
+        let itemName = itemInput.value
+        console.log(itemName)
+
+        fetch("http://localhost:5000/items",{
+
+            method:"POST",
+            headers:{
+            'id':12345,
+            'token':"R89HH8jjndsaZzXxc",
+            'Content-Type': 'application/json'  
+            },
+            body:JSON.stringify({item:itemName})
+
+        })
+        .then(response=>{return response.json()})
+        .then(data=>{
+          
+              data.map(items=>{
+                  let p = document.createElement("h4")
+                  p.textContent = ["id: "+ items.id,"  item:" + items.name]
+                  itemsBox.append(p)
+              })
+        })
+        .catch(error=>console.log(error))
+    }
+</script>
+</html>

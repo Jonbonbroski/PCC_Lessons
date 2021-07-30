@@ -1,0 +1,71 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index-2.html</title>
+</head>
+<style>
+    .container{
+        display:flex
+    }
+
+</style>
+<body>
+
+    <!-- This html has us entering information into an input field, then we put that 
+         into the body paramter of our query. Note: we had to add something to the 
+         query as well.  -->
+
+<div class="container">
+    <div>
+    <h1>Welcome!</h1>
+    <h4>Enter a book title</h4>
+    <input id="book-title">
+    <button onclick=addBookQuery()>Submit book title</button>
+</div>
+</div>
+
+
+<div id="titles">
+
+</div>
+</div>
+</body>
+<script>
+
+
+function addBookQuery(){
+    let titleInput = document.getElementById("book-title");
+    let bookTitle = titleInput.value
+    let titleList = document.getElementById("titles")
+    //For the fetch request, we are using POST. You will also notice other things added as well. 
+    //First, we added "'Content-Type': 'application/json' " in our headers. Our headers
+    //are informing our route that we are senging a json object. 
+    //Next, we added a body:{} object where we are entering information. 
+    //Last, we are using JSON.stringify() around the object so that we can send a string to our route.
+    //Our app.use(express.json()) will then parse it in our route and then we can send a response back. 
+    //Once you have a strong understanding of this material, you can move on to server-4.js
+    fetch("http://localhost:5000/books",{
+        method:"POST",
+        headers:{
+            'id':12345,
+            'token':"W3csda8J0k4fwl0Zz",
+            'Content-Type': 'application/json'  
+        },         
+        body:JSON.stringify({
+            title:bookTitle
+        })
+    }).then(response=>{return response.json()})
+    .then(data=>{ console.log("Response back from the route:",data)
+        let titleDiv = document.createElement("div")
+        titleDiv.textContent=data.title
+        titleList.append(titleDiv)
+
+        })
+    .catch(error=>console.log(error))
+}
+
+
+</script>
+</html>

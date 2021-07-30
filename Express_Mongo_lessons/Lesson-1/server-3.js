@@ -7,7 +7,7 @@ const app = express();
 //what we are sending back. We will use the "send()" method on "res" so that we can send the response.
 
 //Below are examples of the different responses. Note how they will mostly be JSON objects or strings. 
-//The send() method will read what is passed through it and automatically determine what header
+//The send() method will read what is passed through it and automatically determines what header
 //content-type it needs. So it will determine if it is a string, JSON object, HTML etc. 
 //that will be sent back. However, you can still run into errors if it does not understand
 //the material you are trying to send. 
