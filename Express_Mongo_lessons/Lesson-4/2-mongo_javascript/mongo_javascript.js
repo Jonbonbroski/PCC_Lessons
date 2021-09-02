@@ -119,12 +119,11 @@ app.post("/add",(req,res)=>{
 
 async function add(){
 
-    const addItem = ()=>{
+    
 
-        const addedItem = db.collection("mycart").toArray()
-        console.log(addedItem)
-        
-    }
+        db.collection("mycart").insertOne({"name":req.body.name}).toArray()
+        console.log(addedItem)    
+    
 }
 
 
