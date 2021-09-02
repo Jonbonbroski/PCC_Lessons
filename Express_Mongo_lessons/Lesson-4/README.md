@@ -38,5 +38,5 @@ There are three(3) main ways of interacting with mongoDB to create databases and
 The important thing to note is that all three methods connect to the same mongodb. This means, we can use any of them at any point in time to interact, create,read,update and delete data. So as an example, if you used a scripting language (JavaScript) to create a database for your app, you could access that databases using the command line or by using a GUI. This gives us a lot of flexability to manage and manipulate our data. However, it is important that you know how to use all three ways.
 
 We are going to start with mongodb shell. We will use the command line to create a database and manipulate data.
-Once we have covered that, we can move onto scripting language with the servers we have been making. Go ahead and move to mongo-1.md file in the mongo_shell-1 folder and follow along so that you feel comfortable manipulating the data. 
+Once we have covered that, we can move onto scripting language with the servers we have been making. Go ahead and move to mongo_shell-1.md file in the 1-mongo_shell folder and follow along so that you feel comfortable manipulating the data. 
 

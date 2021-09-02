@@ -1,8 +1,8 @@
 const { MongoClient } = require('mongodb');
 
-// Connection URL
-const url = 'mongodb://localhost';
-const client = new MongoClient(url);
+// Connection URI
+const URI = 'mongodb://localhost';
+const client = new MongoClient(URI);
 
 // Database Name
 const dbName = 'characters';
@@ -43,7 +43,6 @@ async function main() {
     await simpsons.insertMany([
         {"first_name":"Homer","last_name":"Simson","height_cm":177},
         {"first_name":"Bart","last_name":"Simson","height_cm":"4ft"},
-        {"first_name":"Marge","last_name":"Simson","height_cm":259},
         {"first_name":"Peter","last_name":"Griffin","height_cm":182},
         {"first_name":"Lisa","last_name":"Simson","height_cm":137},
         {"first_name":"Maggie","last_name":"Simson","height_cm":74}])
