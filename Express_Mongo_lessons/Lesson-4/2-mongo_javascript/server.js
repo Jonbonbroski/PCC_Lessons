@@ -120,11 +120,19 @@ app.post("/addItem",(req,res)=>{
 // Again, we are using an async function as before with the await key word. 
 async function add(){
 
+<<<<<<< HEAD:Express_Mongo_lessons/Lesson-4/2-mongo_javascript/server.js
 // We define a variable called "addedItem". Remember that this variable represents the
 // the response we get back from MongoDB when the command insertOne has finished. 
         let addedItem = await db.collection("mycart").insertOne({"name":req.body.name})
         console.log(addedItem)
         res.send({message:"Item was added"})
+=======
+    
+
+        db.collection("mycart").insertOne({"name":req.body.name}).toArray()
+        console.log(addedItem)    
+    
+>>>>>>> 25080269ab833f1728268b173345493ac56cae29:Express_Mongo_lessons/Lesson-4/2-mongo_javascript/mongo_javascript.js
 }
 
 add();
