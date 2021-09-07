@@ -1,0 +1,203 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mongo_JavaScript</title>
+</head>
+
+<style>
+    #crudBoxes{
+        display:flex;
+        justify-content: space-evenly;
+    }
+    .box{
+        border-style:solid;
+        border-color:black;
+        border-width:5px;
+        display:flex;
+        flex-direction: column;
+        padding:2%
+    }
+
+    #cart{
+        display:flex;
+        flex-direction:column;
+    }
+    table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+</style>
+
+<body>
+    
+ <!-- In this example html we have two boxes, one to enter data that is sent to our database to insert it
+ using mongoose through out route. The other box will just display the response we get back from our
+ route. Notice that if nothing is entered in the field, it will still create the document with null values
+ or as an empty string.-->
+
+
+<div id="crudBoxes">
+
+
+    <!-- This box is to add an item to our database using mongoose -->
+    <div class="box">
+        <input id="addItemName" placeholder="Name of Item to Add" type="text">
+        <input id="addItemQuantity" placeholder="Quantity of Item to Add" type="number">
+        <input id="addItemPrice" placeholder="Price of Item to Add" type="number">
+        <button onclick=addItem()>Add Item</button>
+    </div>
+
+    <!-- This box is to display the data using the Read button-->
+    <div class="box">
+        <p>Click the button to see current products</p>
+        <button onclick=readItems()>Current Products</button>
+        <table id="displayBox">
+            <tr>
+                <th>Item Name</th>
+                <th>Quantity</th>
+                <th>Price($)</th>
+            </tr>
+
+        </table>
+    </div>
+
+    <!-- This box is to update an item in our database -->
+    <div class="box">
+        <input id="editItem" type="text">
+        <input id="newName" type="text">
+        <button onclick=updateItem()>Update Item</button>
+    </div>
+    
+    <!-- This box is to delete an item in our database -->
+    <div class="box">
+        <input id="deleteItem" placeholder="Name of item to delete" type="text">
+        <button onclick=deleteItem()>Delete Item</button>
+    </div>
+
+</div>
+
+</body>
+
+
+<script>
+
+    //Function to add item 
+    function addItem(){
+            let displayBox = document.getElementById("displayBox")
+            displayBox.innerHTML = ""
+            let itemNameBox = document.getElementById("addItemName");
+            let itemQuantityBox = document.getElementById("addItemQuantity");
+            let itemPriceBox = document.getElementById("addItemPrice");
+            let itemName = itemNameBox.value 
+            let itemQuantity = itemQuantityBox.value
+            let itemPrice = itemPriceBox.value
+            itemNameBox.value = "";
+            itemQuantityBox.value = "";
+            itemPriceBox.value = "";
+
+            fetch("http://localhost:5000/addItem",{
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body:JSON.stringify({
+                    name:itemName,
+                    quantity:itemQuantity,
+                    price:itemPrice
+                })
+            })
+            .then((response)=>{return response.json()})
+            .then((data)=>{console.log(data)
+                        data.map((items)=>{
+                            let tr = document.createElement("tr")
+                            let thName = document.createElement("th")
+                            let thQuantity = document.createElement("th")
+                            let thPrice = document.createElement("th")
+                            thName.textContent = data.name
+                            thQuantity.textContent = data.quantity
+                            thPrice.textContent = data.price
+                            tr.append(thName,thQuantity,thPrice)
+                            displayBox.append(tr)
+                            })
+                           })
+            .catch((err)=>{console.log(err)})
+    }
+
+
+    //Function to add item 
+    function readItems(){
+            let displayBox = document.getElementById("displayBox");
+            displayBox.innerHTML = ""
+
+            fetch("http://localhost:5000/readItems",{
+                method:"GET",
+
+            })
+            .then((response)=>{return response.json()})
+            .then((data)=>{console.log(data)
+
+                    data.map((item)=>{
+                            let tr = document.createElement("tr")
+                            let thName = document.createElement("th")
+                            let thQuantity = document.createElement("th")
+                            let thPrice = document.createElement("th")
+                            thName.textContent = item.name
+                            thQuantity.textContent = item.quantity
+                            thPrice.textContent = item.price
+                            tr.append(thName,thQuantity,thPrice)
+                            displayBox.append(tr)
+                            })
+                           })
+            .catch((err)=>{console.log(err)})
+    };
+
+    function deleteItem(){
+            let displayBox = document.getElementById("displayBox");
+            displayBox.innerHTML = ""
+            let itemDeleteBox = document.getElementById("deleteItem");
+            let deleteItemName = itemDeleteBox.value
+            itemDeleteBox.value=""
+            fetch("http://localhost:5000/deleteItem",{
+                method:"delete",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body:JSON.stringify({
+                    name:deleteItemName,
+                })
+            })
+            .then((response)=>{return response.json()})
+            .then((data)=>{console.log(data)
+
+                    data.map((item)=>{
+                            let tr = document.createElement("tr")
+                            let thName = document.createElement("th")
+                            let thQuantity = document.createElement("th")
+                            let thPrice = document.createElement("th")
+                            thName.textContent = item.name
+                            thQuantity.textContent = item.quantity
+                            thPrice.textContent = item.price
+                            tr.append(thName,thQuantity,thPrice)
+                            displayBox.append(tr)
+                            })
+                           })
+            .catch((err)=>{console.log(err)})
+    }
+
+</script>
+</body>
+</html>

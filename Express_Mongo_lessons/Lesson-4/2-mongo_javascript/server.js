@@ -107,7 +107,7 @@ app.get("/readCart",(req,res)=>{
     }
 
     // Now we call the function so it will execute.
-    read ();
+    read();
 
 });
 
@@ -115,25 +115,60 @@ app.get("/readCart",(req,res)=>{
 //In this route, we will add something to our database. The data is coming through the body parameter. 
 //We are using an asyn function as well. Again, the async function will ensure we don't try to do something
 //with the data before it has completed connecting to the database and made the change.
-app.post("/add",(req,res)=>{
+app.post("/addItem",(req,res)=>{
 
+// Again, we are using an async function as before with the await key word. 
 async function add(){
 
-    const addItem = ()=>{
-
-        const addedItem = db.collection("mycart").toArray()
+// We define a variable called "addedItem". Remember that this variable represents the
+// the response we get back from MongoDB when the command insertOne has finished. 
+        let addedItem = await db.collection("mycart").insertOne({"name":req.body.name})
         console.log(addedItem)
-        
-    }
+        res.send({message:"Item was added"})
 }
 
+add();
+
+})
+
+
+// This route we are updating an item.
+app.put("/updateItem",(req,res)=>{
+
+    async function update(){
+            console.log(req.body)
+            let updateItem = await db.collection("mycart").updateOne({"name":req.body.name},{$set:{"name":req.body.newName}})
+            console.log(updateItem)
+            res.send({message:"Item was updated"})
+    }
+    
+    update();
+    
+    })
+
+
+
+// This route we are deleting an item. 
+app.delete("/deleteItem",(req,res)=>{
+
+    async function deleteItem(){
+    const deletedItem = await db.collection("mycart").deleteOne({"name":req.body.name})
+    console.log(deletedItem);
+
+    res.send({message:"Item was deleted"})
+}
+
+deleteItem()
 
 })
 
 
 
 
-
+// Don't forget that app.listen() is the last thing we want to put in our server. We 
+// need to connect to the database and define our routes before starting the server. 
+// After you start this server, open the index.html to see the relation between UI
+// and backend. 
 app.listen(5000,()=>{
 
     console.log("Server connected")

@@ -5,18 +5,193 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mongo_JavaScript</title>
 </head>
+
+<style>
+    #crudBoxes{
+        display:flex;
+        justify-content: space-evenly;
+    }
+    .box{
+        border-style:solid;
+        border-color:black;
+        border-width:5px;
+        display:flex;
+        flex-direction: column;
+        padding:2%
+    }
+
+    #cart{
+        display:flex;
+        flex-direction:column;
+    }
+</style>
+
+
+ <!-- In this UI, we have made four(4) simple buttons, one for each of the routes in our server. 
+      You can see how the buttons send a query to each route with the functions below. Then the 
+      route will interact with the database. After we receive a response from the database, the 
+      route will send a response back to this UI.
+    
+      Do not move forward to 3-mongoose_javascript until you have a strong understanding of this 
+      portion. 
+      -->
+
 <body>
     
 
-<div>
-    <input type="text">
-</div>
-<div id="buttons">
-    <button>Current Cart</button>
-    <button>Add Item</button>
-    <button>Update Item</button>
-    <button></button>
+
+
+<div id="crudBoxes">
+
+    <!-- This box is to Read the data in our database.  -->
+    <div class="box">
+    <button onclick=readItem()>Current Cart</button>
+    <ol id="cart"></ol>
+    </div>
+
+    <!-- This box is to add an item to our database -->
+    <div class="box">
+    <input id="addItem" placeholder="Name of Item to Add" type="text">
+    <button onclick=addItem()>Add Item</button>
+    </div>
+
+    <!-- This box is to update an item in our database -->
+    <div class="box">
+    <input id="editItem" type="text">
+    <input id="newName" type="text">
+    <button onclick=updateItem()>Update Item</button>
+    </div>
+
+    <!-- This box is to delete an item in our database -->
+    <div class="box">
+    <input id="deleteItem" type="text">
+    <button onclick=deleteItem()>Delete Item</button>
+    </div>
+ 
 </div>
 
 </body>
+
+
+<script>
+
+//  Each one of these functions is a fetch request for the buttons above. Keep in mind that 
+//  each one is sending a different type of method as well as sending to a different endpoint
+//  We could send all of the queries to the same endpoint if we wanted to, but for this example
+//  we want to have a clear understanding of the different method purposes.
+
+//  The responses we get back from the routes are handled in the fetch request and send information 
+//  back to the html to be displayed. 
+
+    // This function is to read the items in our database. It is sent to the "/readCart" endpoint
+    // route. The route then uses the "find()" method. The response we get back is then 
+    // added to the list in our html so we can display the items
+    function readItem(){
+        
+        let cart = document.getElementById("cart")
+       cart.innerHTML = ""
+        fetch("http://localhost:5000/readCart",{
+
+            method:"GET",
+        })
+        .then((response)=>{return response.json()})
+        .then((data)=>{console.log(data)
+                       data.map((item)=>{
+                           let tag = document.createElement("li")
+                           tag.textContent = item.name;
+                           cart.append(tag)
+                       })})
+        .catch((err)=>{console.log(err)})
+    }
+
+
+
+    // This function adds an item. It send a query to the "/addItem" endpoint route. The 
+    // route then uses the "insertOne()" method.
+    function addItem(){
+
+    // We are grabbing the value of the add item portion of the html. Then we are sending
+    // that through the "body" paramter of the fetch request. The route then takes that 
+    // value and adds it to our database. 
+            let itemAddBox = document.getElementById("addItem")
+            let itemBeingAdding = itemAddBox.value 
+            itemAddBox.value = ""
+
+            fetch("http://localhost:5000/addItem",{
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body:JSON.stringify({
+                    name:itemBeingAdding
+                })
+            })
+            .then((response)=>{return response})
+            .then((data)=>{console.log(data)})
+            .catch((err)=>{console.log(err)})
+    }
+
+
+// This function updates an item. It sends a query to the "/updateItem" endpoint route. The 
+// route then uses the updateOne() method. 
+function updateItem(){
+    
+    let currentItemBox = document.getElementById("editItem")
+    let updateItemBox = document.getElementById("newName")
+    let currentItem = currentItemBox.value
+    let updateItemName = updateItemBox.value
+    currentItemBox.value=""
+    updateItemBox.value = ""
+    // We are grabbind the values of both input boxes from the update item portion in the html. 
+    // The first value is the item we are looking for which will be used in the filter portion 
+    // of the updateOne() method while the second value is used to change that item's name
+    // Look at the variable and see how they are used in the "body" of the fetch request. 
+
+    fetch("http://localhost:5000/updateItem",{
+
+        method:"PUT",
+        headers:{
+            "Content-Type":"application/json"
+            },
+        body:JSON.stringify({
+                name:currentItem,
+                newName:updateItemName
+        })
+    })
+    .then((response)=>{
+        return response.json()
+    })
+    .then((data)=>{console.log(data)})
+    .catch(err=>{console.log(err)})
+
+}
+
+
+// This function deletes an item from our database. It is send to the "/deleteItem" endpoint
+function deleteItem(){
+    console.log("delete path requested")
+    let itemToDeleteBox = document.getElementById("deleteItem") 
+    let deleteItem = itemToDeleteBox.value
+    itemToDeleteBox.value = ""
+
+//  We grab the value of the input box in the delete item portion of the html. The value
+//  is then passed to our route through the body paramter. The route then uses the value
+//  to find the item to be deleted in the deleteOne() method. 
+    fetch("http://localhost:5000/deleteItem",{
+
+        method:"DELETE",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify({
+            name:deleteItem
+        })
+    })
+    .then(response=>{return response})
+    .then((data)=>{console.log(data)})
+    .catch((err)=>{console.log(err)})
+}
+
+
+</script>
 </html>
